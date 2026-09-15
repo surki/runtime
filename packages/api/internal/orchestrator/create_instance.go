@@ -142,6 +142,7 @@ func applyEgressProxy(dst *orchestrator.SandboxNetworkEgressConfig, src *types.S
 	dst.EgressProxyAddress = src.EgressProxyAddress
 	dst.EgressProxyUsername = src.EgressProxyUsername
 	dst.EgressProxyPassword = src.EgressProxyPassword
+	dst.EgressProxyTls = src.EgressProxyTLS
 }
 
 // buildNetworkConfig constructs the orchestrator network configuration from the input parameters

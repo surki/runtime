@@ -709,8 +709,12 @@ type SandboxNetworkEgressConfig struct {
 	EgressProxyAddress  string `protobuf:"bytes,5,opt,name=egress_proxy_address,json=egressProxyAddress,proto3" json:"egress_proxy_address,omitempty"`
 	EgressProxyUsername string `protobuf:"bytes,6,opt,name=egress_proxy_username,json=egressProxyUsername,proto3" json:"egress_proxy_username,omitempty"`
 	EgressProxyPassword string `protobuf:"bytes,7,opt,name=egress_proxy_password,json=egressProxyPassword,proto3" json:"egress_proxy_password,omitempty"`
-	unknownFields       protoimpl.UnknownFields
-	sizeCache           protoimpl.SizeCache
+	// When true, the host dials the BYOP SOCKS5 proxy over TLS
+	// (SOCKS5-over-TLS) before the RFC 1929 handshake, so the credential
+	// is not sent in cleartext. SNI is the proxy host.
+	EgressProxyTls bool `protobuf:"varint,8,opt,name=egress_proxy_tls,json=egressProxyTls,proto3" json:"egress_proxy_tls,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *SandboxNetworkEgressConfig) Reset() {
@@ -790,6 +794,13 @@ func (x *SandboxNetworkEgressConfig) GetEgressProxyPassword() string {
 		return x.EgressProxyPassword
 	}
 	return ""
+}
+
+func (x *SandboxNetworkEgressConfig) GetEgressProxyTls() bool {
+	if x != nil {
+		return x.EgressProxyTls
+	}
+	return false
 }
 
 type SandboxNetworkIngressConfig struct {
@@ -1707,7 +1718,7 @@ const file_orchestrator_proto_rawDesc = "" +
 	"\n" +
 	"_transform\"F\n" +
 	"\x19SandboxNetworkDomainRules\x12)\n" +
-	"\x05rules\x18\x01 \x03(\v2\x13.SandboxNetworkRuleR\x05rules\"\xbb\x03\n" +
+	"\x05rules\x18\x01 \x03(\v2\x13.SandboxNetworkRuleR\x05rules\"\xe5\x03\n" +
 	"\x1aSandboxNetworkEgressConfig\x12#\n" +
 	"\rallowed_cidrs\x18\x01 \x03(\tR\fallowedCidrs\x12!\n" +
 	"\fdenied_cidrs\x18\x02 \x03(\tR\vdeniedCidrs\x12'\n" +
@@ -1715,7 +1726,8 @@ const file_orchestrator_proto_rawDesc = "" +
 	"\x05rules\x18\x04 \x03(\v2&.SandboxNetworkEgressConfig.RulesEntryR\x05rules\x120\n" +
 	"\x14egress_proxy_address\x18\x05 \x01(\tR\x12egressProxyAddress\x122\n" +
 	"\x15egress_proxy_username\x18\x06 \x01(\tR\x13egressProxyUsername\x122\n" +
-	"\x15egress_proxy_password\x18\a \x01(\tR\x13egressProxyPassword\x1aT\n" +
+	"\x15egress_proxy_password\x18\a \x01(\tR\x13egressProxyPassword\x12(\n" +
+	"\x10egress_proxy_tls\x18\b \x01(\bR\x0eegressProxyTls\x1aT\n" +
 	"\n" +
 	"RulesEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x120\n" +

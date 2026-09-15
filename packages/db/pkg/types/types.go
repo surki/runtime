@@ -80,6 +80,9 @@ type SandboxNetworkEgressConfig struct {
 	EgressProxyAddress  string `json:"egressProxyAddress,omitempty"`
 	EgressProxyUsername string `json:"egressProxyUsername,omitempty"`
 	EgressProxyPassword string `json:"egressProxyPassword,omitempty"`
+	// EgressProxyTLS dials the SOCKS5 proxy over TLS (SOCKS5-over-TLS) so the
+	// RFC 1929 credential is not sent in cleartext. SNI is the proxy host.
+	EgressProxyTLS bool `json:"egressProxyTls,omitempty"`
 }
 
 const AllowPublicAccessDefault = true

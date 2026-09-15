@@ -87,6 +87,8 @@ func dbNetworkConfigToAPI(network *dbtypes.SandboxNetworkConfig) *api.SandboxNet
 				username := egress.EgressProxyUsername
 				proxyCfg.Username = &username
 			}
+			tls := egress.EgressProxyTLS
+			proxyCfg.Tls = &tls
 			result.EgressProxy = proxyCfg
 		}
 	}

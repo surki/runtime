@@ -124,6 +124,10 @@ message SandboxNetworkEgressConfig {
   string egress_proxy_address = 5;
   string egress_proxy_username = 6;
   string egress_proxy_password = 7;
+  // When true, the host dials the BYOP SOCKS5 proxy over TLS
+  // (SOCKS5-over-TLS) before the RFC 1929 handshake, so the credential
+  // is not sent in cleartext. SNI is the proxy host.
+  bool egress_proxy_tls = 8;
 }
 
 message SandboxNetworkIngressConfig {

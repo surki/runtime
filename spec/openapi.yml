@@ -591,6 +591,14 @@ components:
           maxLength: 255
           description: >-
             Optional SOCKS5 password (RFC 1929), max 255 bytes.
+        tls:
+          type: boolean
+          default: false
+          description: >-
+            When true, the host connects to the SOCKS5 proxy over TLS
+            (SOCKS5-over-TLS) before the RFC 1929 handshake, so the proxy
+            credential is not sent in cleartext. The proxy host (from address)
+            is used as the TLS SNI. Defaults to false (plaintext SOCKS5).
 
     SandboxAutoResumeEnabled:
       type: boolean

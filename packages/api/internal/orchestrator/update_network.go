@@ -41,6 +41,7 @@ func (o *Orchestrator) UpdateSandboxNetworkConfig(
 		egressConfig.EgressProxyAddress = egressProxy.Address
 		egressConfig.EgressProxyUsername = egressProxy.Username
 		egressConfig.EgressProxyPassword = egressProxy.Password
+		egressConfig.EgressProxyTLS = egressProxy.TLS
 	}
 	network := &types.SandboxNetworkConfig{Egress: egressConfig}
 	orchNetwork := buildNetworkConfig(network, allowInternetAccess, nil)

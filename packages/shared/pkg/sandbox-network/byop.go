@@ -80,6 +80,12 @@ type EgressProxyConfig struct {
 	Address  string
 	Username string
 	Password string
+	// TLS, when true, tells the (edition-specific) egress dialer to wrap the
+	// host->proxy TCP connection in TLS BEFORE the SOCKS5 handshake
+	// (SOCKS5-over-TLS), so the RFC 1929 credential is not sent in cleartext.
+	// SNI is the proxy host (Address). Transport-agnostic here: this struct
+	// only records the intent; the dialer honors it.
+	TLS bool
 }
 
 // maxSOCKS5CredentialLen is the maximum byte length of a SOCKS5
@@ -178,6 +184,7 @@ func ValidateEgressProxy(ctx context.Context, cfg *EgressProxyConfig, resolve Ho
 		Address:  net.JoinHostPort(host, strconv.Itoa(portNum)),
 		Username: username,
 		Password: password,
+		TLS:      cfg.TLS,
 	}, nil
 }
 

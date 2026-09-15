@@ -69,6 +69,7 @@ func (a *APIStore) PutSandboxesSandboxIDNetwork(c *gin.Context, sandboxID string
 			Address:  ep.Address,
 			Username: sharedUtils.DerefOrDefault(ep.Username, ""),
 			Password: sharedUtils.DerefOrDefault(ep.Password, ""),
+			TLS:      sharedUtils.DerefOrDefault(ep.Tls, false),
 		}, nil)
 		if err != nil {
 			telemetry.ReportError(ctx, "invalid egress proxy config", err)

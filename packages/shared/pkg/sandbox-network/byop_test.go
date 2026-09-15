@@ -59,6 +59,30 @@ func TestValidateEgressProxy_HappyPath(t *testing.T) {
 	assert.Equal(t, "s3cret", got.Password)
 }
 
+func TestValidateEgressProxy_CarriesTLS(t *testing.T) {
+	t.Parallel()
+	resolve := stubResolver(map[string][]net.IP{
+		"proxy.example.com": {net.ParseIP("203.0.113.5")},
+	})
+
+	// TLS=true survives validation (SOCKS5-over-TLS requested).
+	got, err := ValidateEgressProxy(t.Context(), &EgressProxyConfig{
+		Address: "proxy.example.com:1080",
+		TLS:     true,
+	}, resolve)
+	require.NoError(t, err)
+	require.NotNil(t, got)
+	assert.True(t, got.TLS, "TLS flag must survive validation")
+
+	// TLS defaults to false (plaintext SOCKS5) when unset.
+	got2, err := ValidateEgressProxy(t.Context(), &EgressProxyConfig{
+		Address: "proxy.example.com:1080",
+	}, resolve)
+	require.NoError(t, err)
+	require.NotNil(t, got2)
+	assert.False(t, got2.TLS, "TLS defaults to false")
+}
+
 func TestValidateEgressProxy_AcceptsIPLiteralWithoutResolving(t *testing.T) {
 	t.Parallel()
 	// IP literals must short-circuit before the resolver is invoked.

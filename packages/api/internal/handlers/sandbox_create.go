@@ -265,6 +265,7 @@ func (a *APIStore) PostSandboxes(c *gin.Context) {
 				Address:  ep.Address,
 				Username: sharedUtils.DerefOrDefault(ep.Username, ""),
 				Password: sharedUtils.DerefOrDefault(ep.Password, ""),
+				TLS:      sharedUtils.DerefOrDefault(ep.Tls, false),
 			}, nil)
 			if err != nil {
 				telemetry.ReportError(ctx, "invalid egress proxy config", err, telemetry.WithSandboxID(sandboxID))
@@ -276,6 +277,7 @@ func (a *APIStore) PostSandboxes(c *gin.Context) {
 			network.Egress.EgressProxyAddress = canonical.Address
 			network.Egress.EgressProxyUsername = canonical.Username
 			network.Egress.EgressProxyPassword = canonical.Password
+			network.Egress.EgressProxyTLS = canonical.TLS
 		}
 
 		// Make sure envd seucre access is enforced when public access is disabled,
